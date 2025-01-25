@@ -18,7 +18,8 @@ public class SwaggerConfig {
 	                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // Allow Swagger and OpenAPI
 	                .anyRequest().authenticated() // Secure all other endpoints
 	            )
-	            .formLogin(); // Enable basic authentication (optional)
+	            .formLogin().and()
+	            .httpBasic(); // Enable basic authentication (optional)
 
 	        return http.build();
 	    }
