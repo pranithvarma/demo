@@ -2,6 +2,8 @@ package com.practice.demo.entity;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Entity;
@@ -18,11 +20,11 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int customerid;
 	
-	@NotNull
+	@NotBlank(message="Firsname is manditory")
 	@JsonProperty("firstName")
 	private String firstname;
-	
-	@NotNull
+
+	@NotBlank(message="lastname is manditory")
 	@JsonProperty("lastName")
 	private String lastname;
 	

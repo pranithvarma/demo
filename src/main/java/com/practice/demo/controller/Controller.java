@@ -3,7 +3,6 @@ package com.practice.demo.controller;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +20,7 @@ import com.practice.demo.service.CustomerService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -47,11 +47,11 @@ public class Controller {
 		
 	}
 	@GetMapping("/{id}")
-	public Optional<Customer> getCustomer(@PathVariable int id) {
-		return service.getCustomer(id);
+	public Customer getCustomer(@PathVariable int id) {
+		return service.getCustomer(id).orElseThrow(()->new UserNotFoundException("user with id:"+id+"is not present"));
 	}
 	@PostMapping
-	public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
+	public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer){
 
 		Customer createdcustomer = service.createCustomer(customer);
 		return ResponseEntity.ok(createdcustomer);
