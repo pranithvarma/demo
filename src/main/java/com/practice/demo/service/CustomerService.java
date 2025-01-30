@@ -34,5 +34,9 @@ public class CustomerService {
 		// TODO Auto-generated method stub
 		return repo.save(customer);
 	}
+	public int getCustomersCount() {
+		// TODO Auto-generated method stub
+		return repo.getCustomerCount();
+	}
 
 }

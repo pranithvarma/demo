@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,12 +47,16 @@ public class Controller {
 		return service.getcustomers();
 		
 	}
+	@GetMapping("/count")
+	public int getCustomersCount() {
+		return service.getCustomersCount();
+	}
 	@GetMapping("/{id}")
 	public Customer getCustomer(@PathVariable int id) {
 		return service.getCustomer(id).orElseThrow(()->new UserNotFoundException("user with id:"+id+"is not present"));
 	}
 	@PostMapping
-	public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer){
+	public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer,BindingResult result){
 
 		Customer createdcustomer = service.createCustomer(customer);
 		return ResponseEntity.ok(createdcustomer);
