@@ -17,7 +17,7 @@ public class JobRunner {
         this.importCustomerJob = importCustomerJob;
     }
 
-    @Scheduled(cron="5 * * * * ?")
+    @Scheduled(cron="5 * * 1 * ?")
     public void run() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addLong("time", System.currentTimeMillis())
