@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.practice.demo.entity.Customer;
+import com.practice.demo.entity.UserAddress;
 import com.practice.demo.repo.CustomerRepository;
 import com.practice.demo.service.CustomerService;
 
@@ -70,9 +71,17 @@ public class Controller {
 		return service.getcustomers(pageable);
 		
 	}
+	@GetMapping("/address")
+	public List<UserAddress> getAddresses(){
+		return repo.findByAddress();
+	}
 	@GetMapping("/count")
 	public int getCustomersCount() {
 		return service.getCustomersCount();
+	}
+	@GetMapping("find/{firstname}")
+	public List<Optional<Customer>> getCustomer(@PathVariable String firstname) {
+		return repo.findByfirstname(firstname);
 	}
 	@GetMapping("/{id}")
 	public Customer getCustomer(@PathVariable int id) {

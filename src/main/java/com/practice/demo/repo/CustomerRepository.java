@@ -11,12 +11,20 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.practice.demo.entity.Customer;
+import com.practice.demo.entity.UserAddress;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer,Integer>{
 
-	@Query(value = "SELECT countcustomers()", nativeQuery = true)
+	@Query(value = "SELECT count(*) from customer", nativeQuery = true)
     int getCustomerCount();
+	
+	@Query(value="select u from UserAddress u")
+	List<UserAddress> findByAddress();
+	
+
+	List<Optional<Customer>> findByfirstname(String firstname);
+	
 	
 
 }
