@@ -2,6 +2,11 @@ package com.practice.demo.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.apache.commons.logging.Log;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,11 +38,15 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @Tag(name="user controller")
 @RequestMapping("api/customers")
+@Slf4j
 
 public class Controller {
 
 	private final CustomerService service ;
 	private  final CustomerRepository repo;
+	
+	 private static final Logger logger = Logger.getLogger(Controller.class.getName());
+
 	
 	public Controller(CustomerService service,CustomerRepository repo) {
 		this.repo=repo;
@@ -70,7 +79,9 @@ public class Controller {
 		return service.getCustomer(id).orElseThrow(()->new UserNotFoundException("user with id:"+id+"is not present"));
 	}
 	@PostMapping
-	public ResponseEntity<Customer> createCustomer(@Valid @RequestBody Customer customer,BindingResult result){
+	public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
+
+		logger.info("customer data request"+customer);
 
 		Customer createdcustomer = service.createCustomer(customer);
 		return ResponseEntity.ok(createdcustomer);
