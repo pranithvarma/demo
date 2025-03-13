@@ -21,6 +21,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -35,13 +36,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
-	public UserAddress getUseraddress() {
-		return useraddress;
-	}
-
-	public void setUseraddress(UserAddress useraddress) {
-		this.useraddress = useraddress;
-	}
 
 
 	@Id
@@ -56,9 +50,8 @@ public class Customer {
 	@JsonProperty("lastName")
 	private String lastname;
 	
-	 @OneToOne(cascade = CascadeType.ALL)
-	 @JoinColumn(name="address_id",referencedColumnName="userId")
-	    private UserAddress useraddress;
+	 @OneToMany(cascade = CascadeType.ALL)
+	    private List<UserAddress> useraddress;
 
 	public int getCustomerid() {
 		return customerid;
@@ -88,6 +81,14 @@ public class Customer {
 	public String toString() {
 		return "Customer [customerid=" + customerid + ", firstname=" + firstname + ", lastname=" + lastname
 				+ ", useraddress=" + useraddress + "]";
+	}
+
+	public List<UserAddress> getUseraddress() {
+		return useraddress;
+	}
+
+	public void setUseraddress(List<UserAddress> useraddress) {
+		this.useraddress = useraddress;
 	}
 	
 
