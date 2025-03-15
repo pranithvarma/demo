@@ -7,6 +7,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -20,9 +24,15 @@ public class UserAddress {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private int userId;
+	
+	@NotBlank(message="enter street address properly")
 	private String streetAddress1;
 	private String streetAddress2;
 	private String streetAddress3;
+	
+	@NotNull
+
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Country name must contain only letters")
 	private String country;
 	
 

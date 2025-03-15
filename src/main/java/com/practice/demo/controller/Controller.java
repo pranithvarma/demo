@@ -88,10 +88,13 @@ public class Controller {
 		return service.getCustomer(id).orElseThrow(()->new UserNotFoundException("user with id:"+id+"is not present"));
 	}
 	@PostMapping
-	public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
+	public ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer,BindingResult bindingresult){
 
 		logger.info("customer data request"+customer);
-
+		logger.info("validation erros"+bindingresult);
+		  if (bindingresult.hasErrors()) {
+	            return ResponseEntity.badRequest().body(bindingresult.getFieldErrors());
+	        }
 		Customer createdcustomer = service.createCustomer(customer);
 		return ResponseEntity.ok(createdcustomer);
 	}
