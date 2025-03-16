@@ -7,7 +7,9 @@ import java.util.logging.Logger;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.logging.Log;
-
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -71,22 +73,38 @@ public class Controller {
 		return service.getcustomers(pageable);
 		
 	}
+	
+	
 	@GetMapping("/address")
 	public List<UserAddress> getAddresses(){
 		return repo.findByAddress();
 	}
+	
+	
 	@GetMapping("/count")
 	public int getCustomersCount() {
 		return service.getCustomersCount();
 	}
+	
+	
 	@GetMapping("find/{firstname}")
 	public List<Optional<Customer>> getCustomer(@PathVariable String firstname) {
 		return repo.findByfirstname(firstname);
 	}
+	
+	
+	@Cacheable(value="datacache",key="#id")
 	@GetMapping("/{id}")
-	public Customer getCustomer(@PathVariable int id) {
-		return service.getCustomer(id).orElseThrow(()->new UserNotFoundException("user with id:"+id+"is not present"));
+	public ResponseEntity<Customer> getCustomer(@PathVariable int id) {
+		  try {
+	            Thread.sleep(2000);
+	        } catch (InterruptedException e) {
+	            Thread.currentThread().interrupt();
+	        }
+		return ResponseEntity.ok(service.getCustomer(id).orElseThrow(()->new UserNotFoundException("user with id:"+id+"is not present")));
 	}
+	
+
 	@PostMapping
 	public ResponseEntity<?> createCustomer(@Valid @RequestBody Customer customer,BindingResult bindingresult){
 
@@ -98,11 +116,16 @@ public class Controller {
 		Customer createdcustomer = service.createCustomer(customer);
 		return ResponseEntity.ok(createdcustomer);
 	}
+	
+	@CachePut(value="datacache",key="#id")
 	@PutMapping("/{id}")
 	public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer,@PathVariable int id){
 		Customer updatedCustomer= service.updateCustomer(customer);
 		return ResponseEntity.ok(updatedCustomer);
 	}
+	
+
+	@CacheEvict(value="datacache",key="#id")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteCustomer(@PathVariable int id) {
 		if(repo.existsById(id)) {
