@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.client.RestClient;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -14,6 +15,11 @@ import io.swagger.v3.oas.models.info.Info;
 @Configuration
 @EnableWebSecurity
 public class SwaggerConfig {
+	
+	@Bean
+    public RestClient restClient(RestClient.Builder builder) {
+        return builder.build();
+    }
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
