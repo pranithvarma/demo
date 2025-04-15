@@ -51,7 +51,7 @@ public class Customer {
 	@JsonProperty("lastName")
 	private String lastname;
 	
-	@NotNull
+	
 	@Valid
 	 @OneToMany(cascade = CascadeType.ALL)
 	    private List<UserAddress> useraddress;

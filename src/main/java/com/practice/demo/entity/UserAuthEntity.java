@@ -48,12 +48,14 @@ public class UserAuthEntity implements UserDetails {
 		return serialVersionUID;
 	}
 
-	public void setUsername(String username) {
+	public UserAuthEntity setUsername(String username) {
 		this.username = username;
+		return this;
 	}
 
-	public void setPassword(String password) {
+	public UserAuthEntity setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 
 }
