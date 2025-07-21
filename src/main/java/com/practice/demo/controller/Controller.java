@@ -134,7 +134,7 @@ public class Controller {
 			
 		}
 		else {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("customer not found");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found in database");
 		}
 		
 	}
